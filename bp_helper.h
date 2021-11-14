@@ -14,7 +14,7 @@
 #include <vector>
 #include <bitset>
 #include <math.h>
-
+#define K 10
 typedef struct maquinaEstado
 {
     bitset<2> estado;
@@ -54,6 +54,17 @@ uintptr_t getBitsMaisSignificativos(uintptr_t PC, int numBITs)
     PC = PC >> desloca;
     int adress = PC & mascara;
     return adress;
+}
+
+void deslocaBitsBHR(tableBHR &BHR)
+{
+    BHR.historico = BHR.historico << 1;
+    if (BHR.historico < 0)
+    {
+        tableBHR aux;
+        aux.historico = pow(2, (float)K) - 1;
+        BHR.historico = BHR.historico & aux.historico;
+    }
 }
 
 #endif /* _BP_HELPER_H_ */

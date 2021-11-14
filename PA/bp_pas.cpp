@@ -68,17 +68,15 @@ void BP::update(ResInfo br)
     cout << "ANTES: " << BHR[indexBHR].historico << "TAKEN :" << br.taken << "\n";
     if (br.taken)
     {
+        if (!br.direct)
+        {
+            last_target = br.target;
+        }
         if (PHT[indexPHT].cont[BHR[indexBHR].historico].estado.to_ulong() < 3)
         {
             PHT[indexPHT].cont[BHR[indexBHR].historico].estado = PHT[indexPHT].cont[BHR[indexBHR].historico].estado.to_ulong() + 1;
         }
-        BHR[indexBHR].historico = BHR[indexBHR].historico << 1;
-        if (BHR[indexBHR].historico < 0)
-        {
-            tableBHR aux;
-            aux.historico = pow(2, (float)K) - 1;
-            BHR[indexBHR].historico = BHR[indexBHR].historico & aux.historico;
-        }
+        deslocaBitsBHR(BHR[indexBHR]);
         BHR[indexBHR].historico = BHR[indexBHR].historico + 1;
     }
     else
@@ -87,13 +85,7 @@ void BP::update(ResInfo br)
         {
             PHT[indexPHT].cont[BHR[indexBHR].historico].estado = PHT[indexPHT].cont[BHR[indexBHR].historico].estado.to_ulong() - 1;
         }
-        BHR[indexBHR].historico = BHR[indexBHR].historico << 1;
-        if (BHR[indexBHR].historico < 0)
-        {
-            tableBHR aux;
-            aux.historico = pow(2, (float)K) - 1;
-            BHR[indexBHR].historico = BHR[indexBHR].historico & aux.historico;
-        }
+        deslocaBitsBHR(BHR[indexBHR]);
     }
     cout << "DEPOIS: " << BHR[indexBHR].historico << "TAKEN :" << br.taken << "\n";
 }

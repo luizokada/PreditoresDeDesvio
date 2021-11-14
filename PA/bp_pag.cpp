@@ -55,6 +55,10 @@ Prediction BP::predict(EntInfo br)
 
 void BP::update(ResInfo br)
 {
+    if (!br.direct)
+    {
+        last_target = br.target;
+    }
     int index = getBitsMenosSignificativos(br.inst_ptr, M);
     cout << "ANTES: " << BHR[index].historico << "TAKEN :" << br.taken << "\n";
     if (br.taken)
@@ -63,13 +67,7 @@ void BP::update(ResInfo br)
         {
             PHT[BHR[index].historico].estado = PHT[BHR[index].historico].estado.to_ulong() + 1;
         }
-        BHR[index].historico = BHR[index].historico << 1;
-        if (BHR[index].historico < 0)
-        {
-            tableBHR aux;
-            aux.historico = pow(2, (float)K) - 1;
-            BHR[index].historico = BHR[index].historico & aux.historico;
-        }
+        deslocaBitsBHR(BHR[index]);
         BHR[index].historico = BHR[index].historico + 1;
     }
     else
@@ -78,13 +76,7 @@ void BP::update(ResInfo br)
         {
             PHT[BHR[index].historico].estado = PHT[BHR[index].historico].estado.to_ulong() - 1;
         }
-        BHR[index].historico = BHR[index].historico << 1;
-        if (BHR[index].historico < 0)
-        {
-            tableBHR aux;
-            aux.historico = pow(2, (float)K) - 1;
-            BHR[index].historico = BHR[index].historico & aux.historico;
-        }
+        deslocaBitsBHR(BHR[index]);
     }
     cout << "DEPOIS: " << BHR[index].historico << "TAKEN :" << br.taken << "\n";
 }
