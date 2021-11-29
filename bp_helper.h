@@ -14,7 +14,7 @@
 #include <vector>
 #include <bitset>
 #include <math.h>
-#define K 10
+#define K 12
 typedef struct maquinaEstado
 {
     bitset<2> estado;
@@ -24,14 +24,15 @@ typedef struct tablePHT
 {
     vector<maquinaEstado> cont;
 };
+
 typedef struct tableBHR
 {
-    int historico : 11;
+    unsigned int historico : K;
 };
 
 bool isTaken(maquinaEstado M)
 {
-    return M.estado[1] == 1;
+    return M.estado.to_ulong() >= 2;
 }
 
 uintptr_t getBitsMenosSignificativos(uintptr_t PC, int numBITs)
@@ -59,12 +60,6 @@ uintptr_t getBitsMaisSignificativos(uintptr_t PC, int numBITs)
 void deslocaBitsBHR(tableBHR &BHR)
 {
     BHR.historico = BHR.historico << 1;
-    if (BHR.historico < 0)
-    {
-        tableBHR aux;
-        aux.historico = pow(2, (float)K) - 1;
-        BHR.historico = BHR.historico & aux.historico;
-    }
 }
 
 #endif /* _BP_HELPER_H_ */
