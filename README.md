@@ -14,6 +14,8 @@ make
 # 3. Test run.
 pin -t obj-intel64/<bp>.so -- <program>
 #<bp>      - the branch predictors (e.g. bp_btfn.so)
+  
 #<program> - any executable file
+# 3.1 Exemplo
 pin -t obj-intel64/bp_btfn.so -- test/astar test/small.data
 
