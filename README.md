@@ -12,8 +12,8 @@ echo 'export PATH=$PIN_ROOT:$PATH' >> ~/.profile
 # 2. Para contruir os arquivos .o dos previsores basta digitar
 make 
 # 3. Test run.
-#    pin -t obj-intel64/<bp>.so -- <program>
-#      <bp>      - the branch predictors (e.g. bp_btfn.so)
+pin -t obj-intel64/<bp>.so -- <program>
+#<bp>      - the branch predictors (e.g. bp_btfn.so)
 #      <program> - any executable file
 #    Results are in stats.out.
 pin -t obj-intel64/bp_btfn.so -- test/astar test/small.data
