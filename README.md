@@ -14,7 +14,6 @@ make
 # 3. Test run.
 pin -t obj-intel64/<bp>.so -- <program>
 #<bp>      - the branch predictors (e.g. bp_btfn.so)
-#      <program> - any executable file
-#    Results are in stats.out.
+#<program> - any executable file
 pin -t obj-intel64/bp_btfn.so -- test/astar test/small.data
 
