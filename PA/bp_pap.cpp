@@ -4,9 +4,8 @@
 #include <bitset>
 #include <math.h>
 #include <vector>
-#define M 10
-#define K 10
-#define I 10
+#define A 6
+#define K 12
 
 uintptr_t last_target;
 
@@ -16,14 +15,14 @@ vector<tablePHT> PHT;
 
 void BP::init()
 {
-    int numBHRs = pow(2, (float)M);
+    int numBHRs = pow(2, (float)A);
     for (int i = 0; i < numBHRs; i++)
     {
         tableBHR aux;
         aux.historico = 0;
         BHR.push_back(aux);
     }
-    int numPHTs = pow(2, (float)M);
+    int numPHTs = pow(2, (float)A);
     int tamanho;
     tamanho = pow(2, (float)K);
     for (int i = 0; i < numPHTs; i++)
@@ -45,7 +44,7 @@ Prediction BP::predict(EntInfo br)
 {
     bool taken;
     uintptr_t target;
-    int index = getBitsMenosSignificativos(br.inst_ptr, M);
+    int index = getBitsMenosSignificativos(br.inst_ptr, A);
     taken = isTaken(PHT[index].cont[BHR[index].historico]);
 
     if (br.direct)
@@ -66,8 +65,7 @@ void BP::update(ResInfo br)
     {
         last_target = br.target;
     }
-    int index = getBitsMenosSignificativos(br.inst_ptr, M);
-    cout << "ANTES: " << BHR[index].historico << "TAKEN :" << br.taken << "\n";
+    int index = getBitsMenosSignificativos(br.inst_ptr, A);
     if (br.taken)
     {
         if (PHT[index].cont[BHR[index].historico].estado.to_ulong() < 3)
@@ -85,5 +83,4 @@ void BP::update(ResInfo br)
         }
         deslocaBitsBHR(BHR[index]);
     }
-    cout << "DEPOIS: " << BHR[index].historico << "TAKEN :" << br.taken << "\n";
 }

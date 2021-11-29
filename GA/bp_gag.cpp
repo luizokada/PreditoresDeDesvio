@@ -5,7 +5,7 @@
 #include <math.h>
 #include <vector>
 
-#define K 10
+#define K 12
 
 uintptr_t last_target;
 
@@ -52,7 +52,6 @@ void BP::update(ResInfo br)
     {
         last_target = br.target;
     }
-    cout << "ANTES: " << BHR.historico << "TAKEN :" << br.taken << "\n";
     if (br.taken)
     {
         if (PHT[BHR.historico].estado.to_ulong() < 3)
@@ -70,5 +69,4 @@ void BP::update(ResInfo br)
         }
         deslocaBitsBHR(BHR);
     }
-    cout << "DEPOIS: " << BHR.historico << "TAKEN :" << br.taken << "\n";
 }

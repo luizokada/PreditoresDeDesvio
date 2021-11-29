@@ -4,9 +4,9 @@
 #include <bitset>
 #include <math.h>
 #include <vector>
-#define M 10
-#define K 10
-#define I 10
+
+#define K 12
+#define I 4
 
 uintptr_t last_target;
 
@@ -61,7 +61,7 @@ void BP::update(ResInfo br)
         last_target = br.target;
     }
     int index = getBitsMaisSignificativos(br.inst_ptr, I);
-    cout << "ANTES: " << BHR[index].historico << "TAKEN :" << br.taken << "\n";
+    //cout << "ANTES: " << BHR[index].historico << "TAKEN :" << br.taken << "\n";
     if (br.taken)
     {
         if (PHT[BHR[index].historico].estado.to_ulong() < 3)
@@ -79,5 +79,5 @@ void BP::update(ResInfo br)
         }
         deslocaBitsBHR(BHR[index]);
     }
-    cout << "DEPOIS: " << BHR[index].historico << "TAKEN :" << br.taken << "\n";
+    //cout << "DEPOIS: " << BHR[index].historico << "TAKEN :" << br.taken << "\n";
 }

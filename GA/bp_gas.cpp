@@ -4,9 +4,8 @@
 #include <bitset>
 #include <math.h>
 #include <vector>
-#define M 10
-#define K 10
-#define I 10
+#define K 12
+#define M 8
 
 uintptr_t last_target;
 
@@ -16,7 +15,7 @@ vector<tablePHT> PHT;
 void BP::init()
 {
     BHR.historico = 0;
-    int numPHTs = pow(2, (float)I);
+    int numPHTs = pow(2, (float)M);
     int tamanho;
     tamanho = pow(2, (float)K);
     for (int i = 0; i < numPHTs; i++)
@@ -38,7 +37,7 @@ Prediction BP::predict(EntInfo br)
 {
     bool taken;
     uintptr_t target;
-    int index = getBitsMaisSignificativos(br.inst_ptr, I);
+    int index = getBitsMaisSignificativos(br.inst_ptr, M);
 
     taken = isTaken(PHT[index].cont[BHR.historico]);
 
@@ -61,7 +60,7 @@ void BP::update(ResInfo br)
     {
         last_target = br.target;
     }
-    int index = getBitsMaisSignificativos(br.inst_ptr, I);
+    int index = getBitsMaisSignificativos(br.inst_ptr, M);
     //cout << "ANTES: " << BHR.historico << " TAKEN :" << br.taken << " INDEX: " << index << "ENDERECO: " << br.inst_ptr << "\n";
     if (br.taken)
     {

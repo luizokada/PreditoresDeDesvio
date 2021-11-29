@@ -4,9 +4,9 @@
 #include <bitset>
 #include <math.h>
 #include <vector>
-#define M 10
-#define K 10
-#define I 10
+#define M 4
+#define I 4
+#define K 12
 
 uintptr_t last_target;
 
@@ -23,7 +23,7 @@ void BP::init()
         aux.historico = 0;
         BHR.push_back(aux);
     }
-    int numPHTs = pow(2, (float)I);
+    int numPHTs = pow(2, (float)M);
     int tamanho;
     tamanho = pow(2, (float)K);
     for (int i = 0; i < numPHTs; i++)
@@ -45,8 +45,9 @@ Prediction BP::predict(EntInfo br)
 {
     bool taken;
     uintptr_t target;
-    int index = getBitsMaisSignificativos(br.inst_ptr, I);
-    taken = isTaken(PHT[index].cont[BHR[index].historico]);
+    int indexBHR = getBitsMaisSignificativos(br.inst_ptr, I);
+    int indexPHT = getBitsMaisSignificativos(br.inst_ptr, M);
+    taken = isTaken(PHT[indexPHT].cont[BHR[indexBHR].historico]);
 
     if (br.direct)
     {
@@ -66,24 +67,25 @@ void BP::update(ResInfo br)
     {
         last_target = br.target;
     }
-    int index = getBitsMaisSignificativos(br.inst_ptr, I);
-    cout << "ANTES: " << BHR[index].historico << "TAKEN :" << br.taken << "\n";
+    int indexBHR = getBitsMaisSignificativos(br.inst_ptr, I);
+    int indexPHT = getBitsMaisSignificativos(br.inst_ptr, M);
+    //cout << "ANTES: " << BHR[index].historico << "TAKEN :" << br.taken << "\n";
     if (br.taken)
     {
-        if (PHT[index].cont[BHR[index].historico].estado.to_ulong() < 3)
+        if (PHT[indexPHT].cont[BHR[indexBHR].historico].estado.to_ulong() < 3)
         {
-            PHT[index].cont[BHR[index].historico].estado = PHT[index].cont[BHR[index].historico].estado.to_ulong() + 1;
+            PHT[indexPHT].cont[BHR[indexBHR].historico].estado = PHT[indexPHT].cont[BHR[indexBHR].historico].estado.to_ulong() + 1;
         }
-        deslocaBitsBHR(BHR[index]);
-        BHR[index].historico = BHR[index].historico + 1;
+        deslocaBitsBHR(BHR[indexBHR]);
+        BHR[indexBHR].historico = BHR[indexBHR].historico + 1;
     }
     else
     {
-        if (PHT[index].cont[BHR[index].historico].estado.to_ulong() > 0)
+        if (PHT[indexPHT].cont[BHR[indexBHR].historico].estado.to_ulong() > 0)
         {
-            PHT[index].cont[BHR[index].historico].estado = PHT[index].cont[BHR[index].historico].estado.to_ulong() - 1;
+            PHT[indexPHT].cont[BHR[indexBHR].historico].estado = PHT[indexPHT].cont[BHR[indexBHR].historico].estado.to_ulong() - 1;
         }
-        deslocaBitsBHR(BHR[index]);
+        deslocaBitsBHR(BHR[indexBHR]);
     }
-    cout << "DEPOIS: " << BHR[index].historico << "TAKEN :" << br.taken << "\n";
+    //cout << "DEPOIS: " << BHR[index].historico << "TAKEN :" << br.taken << "\n";
 }
