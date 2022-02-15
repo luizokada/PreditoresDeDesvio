@@ -9,9 +9,13 @@
 #o executável do pin em /home/luizokada/Desktop/pin 
 
 export PIN_ROOT=caminho_PIN/pin
+
 export PATH=$PIN_ROOT:$PATH
+
 echo -e "\n# environment variables for branch prediction lab" >> ~/.profile
+
 echo "export PIN_ROOT=$PIN_ROOT"   >> ~/.profile
+
 echo 'export PATH=$PIN_ROOT:$PATH' >> ~/.profile
 
 # 2. Para construir os arquivos .o dos previsores basta digitar
